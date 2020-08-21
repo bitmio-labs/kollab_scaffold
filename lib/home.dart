@@ -1,12 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:kollab_scaffold/model/config.dart';
 
 import 'layout/adaptive.dart';
 
 const appBarDesktopHeight = 128.0;
 
+class NavbarIcon {
+  final String name;
+
+  NavbarIcon(this.name);
+
+  IconData get iconData {
+    switch (name) {
+      case "favorite":
+        return Icons.favorite;
+      case "settings":
+        return Icons.settings;
+      case "inbox":
+        return Icons.inbox;
+      case "dashboard":
+        return Icons.dashboard;
+      case "person":
+        return Icons.person;
+      case "people":
+        return Icons.people;
+      case "share":
+        return Icons.share;
+      case "search":
+        return Icons.search;
+      default:
+        return null;
+    }
+  }
+
+  Icon get icon => iconData != null ? Icon(iconData) : null;
+}
+
 class HomePage extends StatelessWidget {
-  const HomePage();
+  final ScaffoldConfigModel model;
+
+  const HomePage({this.model});
 
   @override
   Widget build(BuildContext context) {
@@ -45,23 +79,21 @@ class HomePage extends StatelessWidget {
     if (isDesktop) {
       return Row(
         children: [
-          ListDrawer(),
+          ListDrawer(model: model),
           const VerticalDivider(width: 1),
           Expanded(
             child: Scaffold(
-              appBar: const AdaptiveAppBar(
-                isDesktop: true,
-              ),
+              appBar: AdaptiveAppBar(isDesktop: true, model: model),
               body: body,
               floatingActionButton: FloatingActionButton.extended(
                 heroTag: 'Extended Add',
                 onPressed: () {},
                 label: Text(
-                  'Create',
+                  'Add',
                   style: TextStyle(color: colorScheme.onSecondary),
                 ),
                 icon: Icon(Icons.add, color: colorScheme.onSecondary),
-                tooltip: 'Create new app.',
+                tooltip: 'Add new item.',
               ),
             ),
           ),
@@ -69,9 +101,9 @@ class HomePage extends StatelessWidget {
       );
     } else {
       return Scaffold(
-        appBar: const AdaptiveAppBar(),
+        appBar: AdaptiveAppBar(model: model),
         body: body,
-        drawer: ListDrawer(),
+        drawer: ListDrawer(model: model),
         floatingActionButton: FloatingActionButton(
           heroTag: 'Add',
           onPressed: () {},
@@ -87,10 +119,10 @@ class HomePage extends StatelessWidget {
 }
 
 class AdaptiveAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const AdaptiveAppBar({
-    Key key,
-    this.isDesktop = false,
-  }) : super(key: key);
+  final ScaffoldConfigModel model;
+
+  const AdaptiveAppBar({Key key, this.isDesktop = false, this.model})
+      : super(key: key);
 
   final bool isDesktop;
 
@@ -103,45 +135,36 @@ class AdaptiveAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
     return AppBar(
-      automaticallyImplyLeading: !isDesktop,
-      title: isDesktop ? null : Text('My Title'),
-      bottom: isDesktop
-          ? PreferredSize(
-              preferredSize: const Size.fromHeight(26),
-              child: Container(
-                alignment: AlignmentDirectional.centerStart,
-                margin: const EdgeInsetsDirectional.fromSTEB(72, 0, 0, 22),
-                child: Text(
-                  'My Title',
-                  style: themeData.textTheme.headline6.copyWith(
-                    color: themeData.colorScheme.onPrimary,
+        automaticallyImplyLeading: !isDesktop,
+        title: isDesktop ? null : Text('My Title'),
+        bottom: isDesktop
+            ? PreferredSize(
+                preferredSize: const Size.fromHeight(26),
+                child: Container(
+                  alignment: AlignmentDirectional.centerStart,
+                  margin: const EdgeInsetsDirectional.fromSTEB(72, 0, 0, 22),
+                  child: Text(
+                    'My Title',
+                    style: themeData.textTheme.headline6.copyWith(
+                      color: themeData.colorScheme.onPrimary,
+                    ),
                   ),
                 ),
-              ),
-            )
-          : null,
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.share),
-          tooltip: 'Share',
-          onPressed: () {},
-        ),
-        IconButton(
-          icon: const Icon(Icons.favorite),
-          tooltip: 'Favorite',
-          onPressed: () {},
-        ),
-        IconButton(
-          icon: const Icon(Icons.search),
-          tooltip: 'Search',
-          onPressed: () {},
-        ),
-      ],
-    );
+              )
+            : null,
+        actions: List.from(model.toolbar_items.map((e) => IconButton(
+              icon: NavbarIcon(e.icon_name).icon,
+              tooltip: e.title,
+              onPressed: () {},
+            ))));
   }
 }
 
 class ListDrawer extends StatefulWidget {
+  final ScaffoldConfigModel model;
+
+  ListDrawer({this.model});
+
   @override
   _ListDrawerState createState() => _ListDrawerState();
 }
@@ -149,7 +172,7 @@ class ListDrawer extends StatefulWidget {
 class _ListDrawerState extends State<ListDrawer> {
   static final numItems = 9;
 
-  int selectedItem = 0;
+  String selectedItem;
 
   @override
   Widget build(BuildContext context) {
@@ -160,28 +183,28 @@ class _ListDrawerState extends State<ListDrawer> {
           children: [
             ListTile(
               title: Text(
-                'My App Title',
+                widget.model.app_title,
                 style: textTheme.headline6,
               ),
               subtitle: Text(
-                'App Subtitle',
+                widget.model.app_subtitle,
                 style: textTheme.bodyText2,
               ),
             ),
             const Divider(),
-            ...Iterable<int>.generate(numItems).toList().map((i) {
-              return ListTile(
-                enabled: true,
-                selected: i == selectedItem,
-                leading: const Icon(Icons.favorite),
-                title: Text('Item $i'),
-                onTap: () {
-                  setState(() {
-                    selectedItem = i;
-                  });
-                },
-              );
-            }),
+            ...widget.model.nav_items.map((e) => ListTile(
+                  enabled: true,
+                  selected: selectedItem != null
+                      ? selectedItem == e.id
+                      : e.id == widget.model.nav_items.first.id,
+                  leading: NavbarIcon(e.icon_name).icon,
+                  title: Text(e.title),
+                  onTap: () {
+                    setState(() {
+                      selectedItem = e.id;
+                    });
+                  },
+                ))
           ],
         ),
       ),
