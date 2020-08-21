@@ -67,8 +67,7 @@ class ExampleScaffoldState extends State<ExampleScaffold> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.active ||
               snapshot.connectionState == ConnectionState.done) {
-            print(snapshot.data.app_title);
-            return HomePage(model: snapshot.data);
+            return KollabScaffold(model: snapshot.data);
           } else {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,

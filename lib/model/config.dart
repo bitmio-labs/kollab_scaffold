@@ -14,7 +14,7 @@ class ScaffoldConfigModel {
 
   static Future<ScaffoldConfigModel> get example async {
     final string = await rootBundle
-        .loadString('packages/kollab_scaffold/lib/model/config-example.json');
+        .loadString('packages/kollab_scaffold/lib/model/config_example.json');
     final json = jsonDecode(string);
     return ScaffoldConfigModel.fromJson(json);
   }

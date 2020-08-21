@@ -8,7 +8,7 @@ void main() {
     final model = await ScaffoldConfigModel.example;
     expect(model.app_title, 'My App Title');
 
-    final widget = HomePage(model: model);
+    final widget = KollabScaffold(model: model);
     expect(widget.model.app_title, model.app_title);
   });
 }
