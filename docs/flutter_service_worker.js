@@ -5,15 +5,17 @@ const CACHE_NAME = 'flutter-app-cache';
 const RESOURCES = {
   "index.html": "926cd8008bef60a4e735ba8d18fbac9c",
 "/": "926cd8008bef60a4e735ba8d18fbac9c",
-"main.dart.js": "bb3bcfd2ef7de4584a160cb146aabbc7",
+"main.dart.js": "cb588801eda1be9653e5d721366f1246",
 "favicon.png": "5dcef449791fa27946b3d35ad8803796",
 "icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
 "manifest.json": "15f73b7e8a8209c2206210b3ac8dea1b",
-"assets/AssetManifest.json": "2efbb41d7877d10aac9d091f58ccd7b9",
+"assets/AssetManifest.json": "22424618c57d73ca7481640f229a65e5",
 "assets/NOTICES": "80cbb444b4d0ac1a55d1a77278db3730",
 "assets/FontManifest.json": "dc3d03800ccca4601324923c0b1d6d57",
 "assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "115e937bb829a890521f72d2e664b632",
+"assets/packages/kollab_scaffold/lib/model/config.dart": "ea28586ea85a76f3e6f5e7a35b91f080",
+"assets/packages/kollab_scaffold/lib/model/config-example.json": "4ab1f25ad134cbd31ba47080c404e5cc",
 "assets/fonts/MaterialIcons-Regular.otf": "a68d2a28c526b3b070aefca4bac93d25"
 };
 

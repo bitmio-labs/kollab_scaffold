@@ -1,0 +1,56 @@
+{
+    "app_title": "My App Title",
+    "app_subtitle": "My App Subtitle",
+    "toolbar_items": [
+        {
+            "id": "share",
+            "title": "Share",
+            "icon_name": "share",
+            "target": ""
+        },
+        {
+            "id": "settings",
+            "title": "Settings",
+            "icon_name": "settings",
+            "target": ""
+        },
+        {
+            "id": "search",
+            "title": "Search",
+            "icon_name": "search",
+            "target": ""
+        }
+    ],
+    "nav_items": [
+        {
+            "id": "1",
+            "title": "Item 1",
+            "icon_name": "dashboard",
+            "target": ""
+        },
+        {
+            "id": "2",
+            "title": "Item 2",
+            "icon_name": "inbox",
+            "target": ""
+        },
+        {
+            "id": "3",
+            "title": "Item 3",
+            "icon_name": "people",
+            "target": ""
+        },
+        {
+            "id": "4",
+            "title": "Item 4",
+            "icon_name": "favorite",
+            "target": ""
+        },
+        {
+            "id": "5",
+            "title": "Item 5",
+            "icon_name": "settings",
+            "target": ""
+        }
+    ]
+}
